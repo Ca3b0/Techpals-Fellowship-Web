@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Find free, trusted tech learning resources — recommended just for you." />
+  <title>TechPals Learning Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="/" class="logo" aria-label="TechPals home">
+        <span class="logo-mark">TP</span>
+        <span class="logo-text">TechPals</span>
+      </a>
+      <nav aria-label="Site navigation">
+        <a href="https://techpals.org" target="_blank" rel="noopener" class="nav-link">Visit TechPals.org</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO / SEARCH -->
+  <main>
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-inner">
+        <p class="eyebrow">Free learning resources</p>
+        <h1 id="hero-heading">What do you want<br>to learn about?</h1>
+        <p class="hero-sub">Type a topic below — like "online banking" or "video calling" — and we'll find the best free resources for you.</p>
+
+        <div class="search-box" role="search">
+          <label for="search-input" class="sr-only">Search for a tech topic</label>
+          <div class="search-row">
+            <input
+              id="search-input"
+              type="search"
+              placeholder="e.g. online banking, Zoom, the cloud…"
+              autocomplete="off"
+              aria-label="Search for a tech topic"
+            />
+            <button id="search-btn" type="button" aria-label="Search">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Search
+            </button>
+          </div>
+        </div>
+
+        <!-- POPULAR TOPICS -->
+        <div class="popular" aria-label="Popular topics">
+          <p class="popular-label">Popular topics:</p>
+          <div class="chips" role="list">
+            <button class="chip" role="listitem" data-query="online banking">Online banking</button>
+            <button class="chip" role="listitem" data-query="video calling Zoom">Video calling</button>
+            <button class="chip" role="listitem" data-query="avoiding scams">Avoiding scams</button>
+            <button class="chip" role="listitem" data-query="the cloud storage">The cloud</button>
+            <button class="chip" role="listitem" data-query="smartphone basics">Smartphone basics</button>
+            <button class="chip" role="listitem" data-query="email safety">Email safety</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="results-section" id="results-section" aria-live="polite" aria-label="Search results">
+      <div class="results-inner" id="results-container">
+        <!-- Injected by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>Made with ♥ by <a href="https://techpals.org" target="_blank" rel="noopener">TechPals</a> · Resources are free and trusted · <a href="mailto:hello@techpals.org">Contact us</a></p>
+    </div>
+  </footer>
+
+  <script src="resources.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
