@@ -1,15 +1,16 @@
 /* ─── TOKENS ─────────────────────────────────────────────── */
 :root {
-  --navy:     #1B3A5C;
-  --teal:     #2A9D8F;
-  --teal-dk:  #21867A;
-  --sand:     #F0EBE1;
-  --bg:       #FAFAF7;
+  --navy:     #0b73dd;
+  --teal:     #0b73dd;
+  --teal-dk:  #0960ba;
+  --yellow:   #ffe300;
+  --sand:     #FFF9D6;
+  --bg:       #FAFAFA;
   --card-bg:  #FFFFFF;
   --text:     #1A1A1A;
   --text-2:   #4B5563;
   --text-3:   #6B7280;
-  --border:   #E5E0D8;
+  --border:   #E2ECF8;
   --radius:   14px;
   --shadow:   0 2px 12px rgba(27,58,92,0.08);
   --shadow-h: 0 6px 24px rgba(27,58,92,0.14);
@@ -71,7 +72,8 @@ img { max-width: 100%; display: block; }
   text-decoration: none;
 }
 .logo-mark {
-  background: var(--teal);
+  background: var(--yellow);
+  color: #1A1A1A;
   color: #fff;
   font-family: var(--font-head);
   font-weight: 800;
@@ -105,7 +107,7 @@ img { max-width: 100%; display: block; }
 
 /* ─── HERO ────────────────────────────────────────────────── */
 .hero {
-  background: linear-gradient(160deg, var(--navy) 0%, #2A5298 100%);
+  background: linear-gradient(160deg, #0b73dd 0%, #0554a8 100%);
   padding: 72px 24px 80px;
   text-align: center;
   position: relative;
@@ -130,8 +132,8 @@ img { max-width: 100%; display: block; }
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--teal);
-  background: rgba(42,157,143,0.15);
+  color: #1A1A1A;
+  background: var(--yellow);
   display: inline-block;
   padding: 5px 14px;
   border-radius: 100px;
@@ -250,7 +252,7 @@ img { max-width: 100%; display: block; }
 .spinner {
   width: 44px; height: 44px;
   border: 4px solid var(--border);
-  border-top-color: var(--teal);
+  border-top-color: var(--navy);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 0 auto 16px;
@@ -303,77 +305,157 @@ img { max-width: 100%; display: block; }
   gap: 18px;
 }
 
-/* Card */
+/* Card — collapsed (default) */
 .card {
   background: var(--card-bg);
-  border: 1.5px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: var(--radius);
-  padding: 22px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  overflow: hidden;
   box-shadow: var(--shadow);
   transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+  cursor: pointer;
   position: relative;
-  overflow: hidden;
 }
 .card:hover {
   box-shadow: var(--shadow-h);
   transform: translateY(-2px);
   border-color: var(--teal);
 }
-.card.techpals-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 4px; height: 100%;
-  background: var(--teal);
-  border-radius: 2px 0 0 2px;
+.card.open {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-h);
+  transform: none;
+  cursor: default;
 }
+
+/* TechPals accent stripe */
+.card.techpals-card { border-left: 5px solid var(--navy); }
+.card.techpals-card .card-header { background: linear-gradient(135deg, #EAF2FF 0%, #F5F9FF 100%); }
+
+/* Card header — always visible, click target */
+.card-header {
+  padding: 18px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #fff;
+}
+.card-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  background: var(--navy);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+.card.techpals-card .card-icon { background: var(--teal); }
+.card-header-text { flex: 1; min-width: 0; }
 .card-badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  background: rgba(42,157,143,0.1);
+  gap: 4px;
+  background: rgba(42,157,143,0.12);
   color: var(--teal-dk);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   font-family: var(--font-head);
-  padding: 3px 10px;
+  padding: 2px 9px;
   border-radius: 100px;
   width: fit-content;
   letter-spacing: 0.3px;
+  margin-bottom: 5px;
+}
+.card-badge.ext {
+  background: rgba(27,58,92,0.08);
+  color: var(--navy);
 }
 .card-title {
   font-family: var(--font-head);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--navy);
   line-height: 1.3;
+  margin-bottom: 4px;
 }
-.card-desc {
-  font-size: 15px;
+.card-summary {
+  font-size: 14px;
   color: var(--text-2);
-  line-height: 1.55;
-  flex: 1;
+  line-height: 1.5;
 }
+.card-chevron {
+  flex-shrink: 0;
+  color: var(--teal);
+  margin-top: 2px;
+  transition: transform 0.22s;
+}
+.card.open .card-chevron { transform: rotate(180deg); }
+
+/* Card body — expanded detail */
+.card-body {
+  display: none;
+  border-top: 1.5px solid var(--border);
+  background: #F0F6FF;
+  padding: 18px 20px 20px;
+}
+.card.open .card-body { display: block; }
+
+.card-body h4 {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--teal-dk);
+  margin-bottom: 10px;
+}
+.card-steps {
+  list-style: none;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card-steps li {
+  display: flex;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.5;
+  align-items: flex-start;
+}
+.step-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-head);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.card.techpals-card .step-num { background: var(--teal); }
 .card-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: var(--teal);
+  gap: 7px;
+  background: var(--navy);
   color: #fff;
   text-decoration: none;
   font-family: var(--font-head);
   font-weight: 700;
   font-size: 15px;
-  padding: 10px 18px;
+  padding: 11px 20px;
   border-radius: 9px;
-  margin-top: 4px;
-  align-self: flex-start;
   transition: background 0.18s;
+  width: 100%;
+  justify-content: center;
+  margin-top: 4px;
 }
-.card-link:hover { background: var(--teal-dk); color: #fff; }
+.card.techpals-card .card-link { background: var(--teal); }
+.card-link:hover { opacity: 0.88; color: #fff; }
 .card-link svg { flex-shrink: 0; }
 
 /* Empty / error state */

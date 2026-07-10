@@ -1,29 +1,14 @@
-// ─── CONFIG ──────────────────────────────────────────────────────────────────
-// Set your Brave Search API key here (or in a serverless function — see README)
-const BRAVE_API_KEY = "YOUR_BRAVE_API_KEY_HERE";
-
-// How many external results to show (max 5 for v1)
-const EXTERNAL_RESULT_COUNT = 5;
-
-// Domains to filter out from external results (low quality / ad-heavy)
-const BLOCKED_DOMAINS = [
-  "pinterest.com", "quora.com", "reddit.com",
-  "amazon.com", "ebay.com", "etsy.com"
-];
-
 // ─── ELEMENTS ────────────────────────────────────────────────────────────────
-const searchInput  = document.getElementById("search-input");
-const searchBtn    = document.getElementById("search-btn");
-const resultsSection = document.getElementById("results-section");
+const searchInput     = document.getElementById("search-input");
+const searchBtn       = document.getElementById("search-btn");
+const resultsSection  = document.getElementById("results-section");
 const resultsContainer = document.getElementById("results-container");
 
 // ─── EVENT LISTENERS ─────────────────────────────────────────────────────────
 searchBtn.addEventListener("click", () => runSearch(searchInput.value.trim()));
-
 searchInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") runSearch(searchInput.value.trim());
 });
-
 document.querySelectorAll(".chip").forEach((chip) => {
   chip.addEventListener("click", () => {
     const query = chip.dataset.query;
@@ -32,106 +17,49 @@ document.querySelectorAll(".chip").forEach((chip) => {
   });
 });
 
-// ─── MAIN SEARCH FUNCTION ────────────────────────────────────────────────────
-async function runSearch(query) {
+// ─── SEARCH ──────────────────────────────────────────────────────────────────
+function runSearch(query) {
   if (!query) return;
-
-  // Scroll to results
   resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
   showLoading(query);
 
-  // 1. Match against curated TechPals resources
-  const techpalsMatches = matchTechPalsResources(query);
-
-  // 2. Fetch external results
-  let externalResults = [];
-  try {
-    externalResults = await fetchExternalResults(query);
-  } catch (err) {
-    console.warn("External search unavailable:", err.message);
-  }
-
-  renderResults(query, techpalsMatches, externalResults);
+  // Small delay so loading state is visible
+  setTimeout(() => {
+    const techpalsMatches  = matchResources(query, TECHPALS_RESOURCES, 4);
+    const externalMatches  = matchResources(query, EXTERNAL_RESOURCES, 5);
+    renderResults(query, techpalsMatches, externalMatches);
+  }, 300);
 }
 
-// ─── TECHPALS MATCHING ───────────────────────────────────────────────────────
-function matchTechPalsResources(query) {
-  const q = query.toLowerCase();
-  const words = q.split(/\s+/);
+// ─── MATCHING ────────────────────────────────────────────────────────────────
+function matchResources(query, list, maxResults) {
+  const q     = query.toLowerCase().trim();
+  const words = q.split(/\s+/).filter(w => w.length > 2);
 
-  return TECHPALS_RESOURCES
+  return list
     .map((resource) => {
-      const tagString = resource.tags.join(" ");
-      // Score: full phrase match scores highest, word matches add up
+      const tagStr   = resource.tags.join(" ").toLowerCase();
+      const titleStr = resource.title.toLowerCase();
+      const descStr  = resource.description.toLowerCase();
       let score = 0;
-      if (tagString.includes(q)) score += 10;
+
+      // Exact full phrase match in tags (highest value)
+      if (tagStr.includes(q))   score += 15;
+      if (titleStr.includes(q)) score += 10;
+      if (descStr.includes(q))  score += 5;
+
+      // Individual word matches
       words.forEach((word) => {
-        if (word.length > 2 && tagString.includes(word)) score += 2;
+        if (tagStr.includes(word))   score += 3;
+        if (titleStr.includes(word)) score += 2;
+        if (descStr.includes(word))  score += 1;
       });
-      if (resource.title.toLowerCase().includes(q)) score += 5;
+
       return { ...resource, score };
     })
     .filter((r) => r.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 4); // max 4 TechPals results
-}
-
-// ─── EXTERNAL SEARCH (Brave Search API) ──────────────────────────────────────
-async function fetchExternalResults(query) {
-  // If no API key is set, return a helpful fallback message
-  if (BRAVE_API_KEY === "YOUR_BRAVE_API_KEY_HERE") {
-    return getFallbackResults(query);
-  }
-
-  const url = `https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query + " tutorial guide for beginners")}&count=${EXTERNAL_RESULT_COUNT + 3}&safesearch=strict`;
-
-  const response = await fetch(url, {
-    headers: {
-      "Accept": "application/json",
-      "Accept-Encoding": "gzip",
-      "X-Subscription-Token": BRAVE_API_KEY
-    }
-  });
-
-  if (!response.ok) throw new Error(`Brave API error: ${response.status}`);
-
-  const data = await response.json();
-  const results = data.web?.results ?? [];
-
-  return results
-    .filter((r) => !BLOCKED_DOMAINS.some((d) => r.url.includes(d)))
-    .slice(0, EXTERNAL_RESULT_COUNT)
-    .map((r) => ({
-      title: r.title,
-      description: r.description || "Click to view this resource.",
-      url: r.url,
-      source: extractDomain(r.url)
-    }));
-}
-
-// Fallback results when no API key is configured (uses trusted known sources)
-function getFallbackResults(query) {
-  const q = encodeURIComponent(query);
-  return [
-    {
-      title: `Search Google for "${query}"`,
-      description: "Find guides, tutorials, and trusted websites about this topic on Google.",
-      url: `https://www.google.com/search?q=${q}+beginner+guide`,
-      source: "google.com"
-    },
-    {
-      title: `AARP: ${query} guides`,
-      description: "AARP has many easy-to-follow technology guides written specifically for older adults.",
-      url: `https://www.aarp.org/home-family/personal-technology/`,
-      source: "aarp.org"
-    },
-    {
-      title: `GCFGlobal: Free ${query} lessons`,
-      description: "GCFGlobal offers free, beginner-friendly technology tutorials on a wide range of topics.",
-      url: `https://edu.gcfglobal.org/en/`,
-      source: "gcfglobal.org"
-    }
-  ];
+    .slice(0, maxResults);
 }
 
 // ─── RENDER ──────────────────────────────────────────────────────────────────
@@ -150,76 +78,127 @@ function renderResults(query, techpalsResults, externalResults) {
   let html = `
     <div class="results-header">
       <h2>Results for "${escapeHtml(query)}"</h2>
-      <p>${techpalsResults.length + externalResults.length} resources found</p>
+      <p>${techpalsResults.length + externalResults.length} resource${techpalsResults.length + externalResults.length !== 1 ? "s" : ""} found</p>
     </div>`;
 
-  // TechPals resources first
   if (techpalsResults.length > 0) {
     html += `<p class="section-label techpals">★ TechPals Resources</p>`;
     html += `<div class="cards-grid">`;
-    techpalsResults.forEach((r) => {
-      html += cardHTML({
-        title: r.title,
-        desc: r.description,
-        url: r.url,
-        isTechPals: true
-      });
-    });
+    techpalsResults.forEach(r => { html += cardHTML(r, true); });
     html += `</div>`;
   }
 
-  // External results
   if (externalResults.length > 0) {
-    html += `<p class="section-label">More Resources</p>`;
+    html += `<p class="section-label">More Trusted Resources</p>`;
     html += `<div class="cards-grid">`;
-    externalResults.forEach((r) => {
-      html += cardHTML({
-        title: r.title,
-        desc: r.description,
-        url: r.url,
-        source: r.source,
-        isTechPals: false
-      });
-    });
+    externalResults.forEach(r => { html += cardHTML(r, false); });
     html += `</div>`;
   }
 
   resultsContainer.innerHTML = html;
 }
 
-function cardHTML({ title, desc, url, source, isTechPals }) {
-  const badgeHTML = isTechPals
+// ─── CARD ────────────────────────────────────────────────────────────────────
+const TOPIC_ICONS = {
+  bank: "🏦", banking: "🏦", money: "🏦",
+  zoom: "📹", video: "📹", facetime: "📹", call: "📹",
+  scam: "🛡️", fraud: "🛡️", phishing: "🛡️", safety: "🛡️",
+  cloud: "☁️", storage: "☁️", backup: "☁️",
+  phone: "📱", smartphone: "📱", iphone: "📱", android: "📱",
+  email: "✉️", gmail: "✉️", inbox: "✉️",
+  google: "🔍", search: "🔍", internet: "🔍",
+  password: "🔐", security: "🔐", login: "🔐",
+  wifi: "📶", network: "📶", router: "📶",
+  photo: "🖼️", photos: "🖼️", picture: "🖼️",
+  text: "💬", message: "💬", sms: "💬",
+  battery: "🔋", charging: "🔋",
+  app: "📲", apps: "📲", download: "📲",
+};
+
+function getIcon(title, tags) {
+  const text = (title + " " + (tags || []).join(" ")).toLowerCase();
+  for (const [key, icon] of Object.entries(TOPIC_ICONS)) {
+    if (text.includes(key)) return icon;
+  }
+  return "📖";
+}
+
+function cardHTML(resource, isTechPals) {
+  const { title, description, steps, url, source, tags } = resource;
+  const icon = getIcon(title, tags);
+
+  // Short one-line summary for collapsed view
+  const firstSentence = (description.match(/[^.!?]+[.!?]?/) || [description])[0].trim();
+  const summary = firstSentence.length > 100 ? firstSentence.slice(0, 97) + "…" : firstSentence;
+
+  const badge = isTechPals
     ? `<span class="card-badge">★ TechPals</span>`
     : source
-      ? `<span class="card-badge" style="background:rgba(107,114,128,0.1);color:#4B5563;">${escapeHtml(source)}</span>`
+      ? `<span class="card-badge ext">${escapeHtml(source)}</span>`
       : "";
 
+  const chevron = `<svg class="card-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`;
   const arrowIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>`;
 
+  const stepsHTML = steps.map((s, i) => `
+    <li><span class="step-num">${i + 1}</span><span>${escapeHtml(s)}</span></li>`).join("");
+
   return `
-    <article class="card ${isTechPals ? "techpals-card" : ""}">
-      ${badgeHTML}
-      <h3 class="card-title">${escapeHtml(title)}</h3>
-      <p class="card-desc">${escapeHtml(desc)}</p>
-      <a class="card-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">
-        View Resource ${arrowIcon}
-      </a>
+    <article class="card ${isTechPals ? "techpals-card" : ""}" role="button" tabindex="0" aria-expanded="false">
+      <div class="card-header">
+        <div class="card-icon" aria-hidden="true">${icon}</div>
+        <div class="card-header-text">
+          ${badge}
+          <h3 class="card-title">${escapeHtml(title)}</h3>
+          <p class="card-summary">${escapeHtml(summary)}</p>
+        </div>
+        ${chevron}
+      </div>
+      <div class="card-body" aria-hidden="true">
+        <h4>What you'll learn</h4>
+        <ul class="card-steps">${stepsHTML}</ul>
+        <a class="card-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">
+          Open full guide ${arrowIcon}
+        </a>
+      </div>
     </article>`;
 }
 
+// ─── EXPAND / COLLAPSE ───────────────────────────────────────────────────────
+document.addEventListener("click", (e) => {
+  const card = e.target.closest(".card");
+  if (!card) return;
+  if (e.target.closest(".card-link")) return;
+
+  const isOpen = card.classList.contains("open");
+  document.querySelectorAll(".card.open").forEach(c => {
+    c.classList.remove("open");
+    c.setAttribute("aria-expanded", "false");
+    c.querySelector(".card-body").setAttribute("aria-hidden", "true");
+  });
+
+  if (!isOpen) {
+    card.classList.add("open");
+    card.setAttribute("aria-expanded", "true");
+    card.querySelector(".card-body").setAttribute("aria-hidden", "false");
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const card = e.target.closest(".card");
+  if (!card || e.target.closest(".card-link")) return;
+  e.preventDefault();
+  card.click();
+});
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
 function showLoading(query) {
   resultsContainer.innerHTML = `
     <div class="loading-state" role="status" aria-live="polite">
       <div class="spinner" aria-hidden="true"></div>
       <p>Finding resources for "<strong>${escapeHtml(query)}</strong>"…</p>
     </div>`;
-}
-
-// ─── UTILS ───────────────────────────────────────────────────────────────────
-function extractDomain(url) {
-  try {
-    return new URL(url).hostname.replace("www.", "");
-  } catch { return url; }
 }
 
 function escapeHtml(str) {
