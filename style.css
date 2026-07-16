@@ -472,6 +472,103 @@ img { max-width: 100%; display: block; }
 }
 .empty-state p { font-size: 17px; max-width: 420px; margin: 0 auto; }
 
+/* ─── GENERATED GUIDE ────────────────────────────────────────── */
+.generated-guide {
+  margin-top: 48px;
+  background: var(--navy);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.guide-header {
+  padding: 32px 32px 24px;
+  border-bottom: 1.5px solid rgba(255,255,255,0.1);
+}
+.guide-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--yellow);
+  color: #1A1A1A;
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 100px;
+  margin-bottom: 16px;
+}
+.guide-header h2 {
+  font-family: var(--font-head);
+  font-size: 26px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 10px;
+  line-height: 1.25;
+}
+.guide-intro {
+  color: rgba(255,255,255,0.75);
+  font-size: 16px;
+  line-height: 1.65;
+  max-width: 620px;
+}
+.guide-steps {
+  padding: 24px 32px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.guide-step {
+  display: flex;
+  gap: 18px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  align-items: flex-start;
+}
+.guide-step:last-child { border-bottom: none; }
+.guide-step-num {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--yellow);
+  color: #1A1A1A;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.guide-step-body h4 {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 5px;
+}
+.guide-step-body p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.6;
+}
+.guide-footer {
+  padding: 20px 32px 28px;
+  border-top: 1.5px solid rgba(255,255,255,0.1);
+}
+.guide-footer p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.55);
+}
+.guide-footer a {
+  color: var(--yellow);
+  text-decoration: underline;
+}
+.guide-footer a:hover { color: #fff; }
+
+@media (max-width: 560px) {
+  .guide-header, .guide-steps, .guide-footer { padding-left: 20px; padding-right: 20px; }
+  .guide-header h2 { font-size: 21px; }
+}
+
 /* ─── FOOTER ──────────────────────────────────────────────── */
 .footer {
   background: var(--navy);
