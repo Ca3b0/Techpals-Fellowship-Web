@@ -108,7 +108,7 @@ img { max-width: 100%; display: block; }
 /* ─── HERO ────────────────────────────────────────────────── */
 .hero {
   background: linear-gradient(160deg, #0b73dd 0%, #0554a8 100%);
-  padding: 72px 24px 80px;
+  padding: 72px 24px 50px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -116,10 +116,10 @@ img { max-width: 100%; display: block; }
 .hero::before {
   content: '';
   position: absolute;
-  bottom: -60px; left: 50%; transform: translateX(-50%);
-  width: 120%; height: 120px;
+  bottom: -40px; left: 50%; transform: translateX(-50%);
+  width: 120%; height: 80px;
   background: var(--bg);
-  border-radius: 50% 50% 0 0 / 60px;
+  border-radius: 50% 50% 0 0 / 40px;
 }
 .hero-inner {
   max-width: 680px;
@@ -236,7 +236,7 @@ img { max-width: 100%; display: block; }
 
 /* ─── RESULTS SECTION ─────────────────────────────────────── */
 .results-section {
-  padding: 80px 24px 60px;
+  padding: 32px 24px 60px;
   min-height: 100px;
 }
 .results-inner {
@@ -584,9 +584,9 @@ img { max-width: 100%; display: block; }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 560px) {
-  .hero { padding: 52px 20px 70px; }
+  .hero { padding: 52px 20px 45px; }
   #search-btn span { display: none; }
   #search-btn { padding: 12px 14px; }
   .cards-grid { grid-template-columns: 1fr; }
-  .results-section { padding: 60px 20px 40px; }
+  .results-section { padding: 24px 20px 40px; }
 }
