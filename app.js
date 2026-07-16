@@ -161,8 +161,11 @@ function renderResults(query, techpalsResults, externalResults, guide) {
     return;
   }
 
-  let html = `
-    <div class="results-header">
+  // Guide appears first, then results below
+  let html = guideHTML(guide, query);
+
+  html += `
+    <div class="results-header" style="margin-top:40px;">
       <h2>Results for "${escapeHtml(query)}"</h2>
       <p>${techpalsResults.length + externalResults.length} resource${techpalsResults.length + externalResults.length !== 1 ? "s" : ""} found</p>
     </div>`;
@@ -179,7 +182,6 @@ function renderResults(query, techpalsResults, externalResults, guide) {
     html += `</div>`;
   }
 
-  html += guideHTML(guide, query);
   resultsContainer.innerHTML = html;
 }
 

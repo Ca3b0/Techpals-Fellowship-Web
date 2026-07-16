@@ -273,7 +273,7 @@ const EXTERNAL_RESOURCES = [
       "Don't use the same password for multiple accounts — if one gets hacked, all your accounts become vulnerable.",
       "Consider a password manager app like LastPass or 1Password — it remembers all your passwords so you only need one master password."
     ],
-    url: "https://edu.gcfglobal.org/en/internetsafety/creating-strong-passwords/1/",
+    url: "https://edu.gcfglobal.org/en/internetsafety/creating-strong-passwords/full/",
     source: "GCFGlobal",
     tags: ["password", "passwords", "strong password", "password security", "password manager", "account security", "login", "secure password"]
   },
@@ -339,7 +339,7 @@ const EXTERNAL_RESOURCES = [
       "iCloud (for iPhone) and Google Drive (for Android) back up your photos and files automatically when connected to Wi-Fi.",
       "If your phone is lost or broken, your photos and contacts are safe in the cloud and can be restored to a new phone."
     ],
-    url: "https://edu.gcfglobal.org/en/computerbasics/mobile-devices/full",
+    url: "https://edu.gcfglobal.org/en/computerbasics/mobile-devices/full/",
     source: "GCFGlobal",
     tags: ["cloud", "the cloud", "cloud storage", "icloud", "google drive", "google photos", "backup", "storage", "files", "photo backup"]
   },
@@ -433,7 +433,7 @@ const EXTERNAL_RESOURCES = [
       "Tap the Search tab and type the name of the app you want. Tap 'Get' (iPhone) or 'Install' (Android) to download it for free.",
       "The app will appear on your home screen once it's downloaded — tap it to open it."
     ],
-    url: "https://edu.gcfglobal.org/en/mobile-device-tips/downloading-and-using-apps/1/",
+    url: "https://edu.gcfglobal.org/en/mobile-device-tips/",
     source: "GCFGlobal",
     tags: ["apps", "download apps", "app store", "google play", "install app", "free apps", "smartphone apps", "how to download app"]
   },
