@@ -195,7 +195,7 @@ const EXTERNAL_RESOURCES = [
       "Find out how to make calls, send texts, and download apps from the App Store or Google Play.",
       "Explore settings for adjusting volume, brightness, and notifications to make your phone more comfortable."
     ],
-    url: "https://edu.gcfglobal.org/en/smartphone-basics/",
+    url: "https://edu.gcfglobal.org/en/mobile-device-tips/",
     source: "GCFGlobal",
     tags: ["smartphone", "phone basics", "beginner phone", "smartphone basics", "how to use phone", "iphone basics", "android basics", "touchscreen"]
   },
@@ -247,7 +247,7 @@ const EXTERNAL_RESOURCES = [
       "To reply to an email, open it and tap 'Reply' at the bottom. Type your message and tap Send.",
       "Move unwanted emails to Trash by swiping left on them, or mark them as Spam if they look suspicious."
     ],
-    url: "https://edu.gcfglobal.org/en/gmail/",
+    url: "https://edu.gcfglobal.org/en/topics/googleapps/",
     source: "GCFGlobal",
     tags: ["email", "gmail", "email basics", "how to email", "send email", "inbox", "email beginner", "gmail basics"]
   },
@@ -299,7 +299,7 @@ const EXTERNAL_RESOURCES = [
       "On Android: go to Settings → Network & Internet → Wi-Fi, turn it on, and tap your network name.",
       "If it won't connect, try turning Wi-Fi off and back on, or restart your router by unplugging it for 30 seconds."
     ],
-    url: "https://edu.gcfglobal.org/en/basic-skills/connecting-to-wifi/1/",
+    url: "https://edu.gcfglobal.org/en/basic-computer-skills/how-to-set-up-a-wifi-network/full/",
     source: "GCFGlobal",
     tags: ["wifi", "wi-fi", "internet", "connect wifi", "wifi password", "wireless", "network", "wifi connection", "home internet"]
   },
@@ -311,7 +311,7 @@ const EXTERNAL_RESOURCES = [
       "You access it through a browser (like Safari or Chrome) by typing a website address or searching for something.",
       "Stay safe by only visiting websites that start with 'https://' and being careful about what personal information you share."
     ],
-    url: "https://edu.gcfglobal.org/en/internetbasics/",
+    url: "https://edu.gcfglobal.org/en/internetbasics/what-is-the-internet/full/",
     source: "GCFGlobal",
     tags: ["internet", "internet basics", "what is internet", "browsing", "web", "online", "beginner internet", "how internet works"]
   },
@@ -339,7 +339,7 @@ const EXTERNAL_RESOURCES = [
       "iCloud (for iPhone) and Google Drive (for Android) back up your photos and files automatically when connected to Wi-Fi.",
       "If your phone is lost or broken, your photos and contacts are safe in the cloud and can be restored to a new phone."
     ],
-    url: "https://edu.gcfglobal.org/en/computerbasics/understanding-the-cloud/1/",
+    url: "https://edu.gcfglobal.org/en/computerbasics/mobile-devices/full",
     source: "GCFGlobal",
     tags: ["cloud", "the cloud", "cloud storage", "icloud", "google drive", "google photos", "backup", "storage", "files", "photo backup"]
   },
@@ -379,7 +379,7 @@ const EXTERNAL_RESOURCES = [
       "Use the search bar to find photos by typing what's in them — like 'birthday' or 'beach' — Google finds them for you.",
       "Share a photo by tapping it, then the Share button, and choosing to send it by text, email, or a shareable link."
     ],
-    url: "https://edu.gcfglobal.org/en/google-photos-basics/",
+    url: "https://edu.gcfglobal.org/en/topics/googleapps/",
     source: "GCFGlobal",
     tags: ["google photos", "photos", "photo backup", "pictures", "photo sharing", "organize photos", "photo storage", "backup photos"]
   },
@@ -405,7 +405,7 @@ const EXTERNAL_RESOURCES = [
       "Type your message in the text box at the bottom and tap the Send button (arrow icon).",
       "To add a photo, tap the photo icon next to the text box, choose a photo from your gallery, then tap Send."
     ],
-    url: "https://edu.gcfglobal.org/en/basic-skills/sending-a-text-message/1/",
+    url: "https://edu.gcfglobal.org/en/androidbasics/common-tasks/1/",
     source: "GCFGlobal",
     tags: ["texting", "text message", "sms", "how to text", "send text", "messaging", "messages", "text", "iphone text", "android text"]
   },
@@ -433,7 +433,7 @@ const EXTERNAL_RESOURCES = [
       "Tap the Search tab and type the name of the app you want. Tap 'Get' (iPhone) or 'Install' (Android) to download it for free.",
       "The app will appear on your home screen once it's downloaded — tap it to open it."
     ],
-    url: "https://edu.gcfglobal.org/en/smartphone-basics/downloading-and-using-apps/1/",
+    url: "https://edu.gcfglobal.org/en/mobile-device-tips/downloading-and-using-apps/1/",
     source: "GCFGlobal",
     tags: ["apps", "download apps", "app store", "google play", "install app", "free apps", "smartphone apps", "how to download app"]
   },
